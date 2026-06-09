@@ -1,0 +1,270 @@
+👨‍💻 Project Overview
+
+This repository contains my Lab 17 Final Project from the Hands-On Introduction to Linux Commands, Shell Scripting, and Operating Systems course.
+
+The project focuses on developing a fully automated Linux backup solution using Bash scripting. The script identifies files modified within the last 24 hours, archives them into a compressed backup file, and stores the backup in a specified destination directory.
+
+Through this project, I applied practical Linux administration skills, shell scripting concepts, file management operations, process automation, and task scheduling techniques.
+
+🎯 Project Objectives
+
+The objectives of this project were to:
+
+Develop a Bash shell script for automated backups.
+Practice Linux file and directory operations.
+Work with command-line arguments.
+Implement variables and arithmetic operations.
+Use conditional statements and loops.
+Create compressed archive files using tar.
+Schedule automated tasks using cron.
+Strengthen Linux system administration skills.
+
+🛠 Technologies Used
+Technology	   Purpose
+Linux	         Operating System
+Bash	         Shell Scripting
+Tar	           Archiving and Compression
+Cron	         Task Scheduling
+Wget	         File Downloading
+Unzip	         File Extraction
+GitHub	       Documentation and Version Control
+
+📜 Backup Script Features
+
+The backup script performs the following tasks:
+
+✅ Accepts source and destination directories as command-line arguments
+
+✅ Validates user input
+
+✅ Calculates timestamps
+
+✅ Identifies files modified within the last 24 hours
+
+✅ Stores eligible files in an array
+
+✅ Compresses files into a .tar.gz archive
+
+✅ Moves backup files to the destination directory
+
+✅ Supports automation using Cron Jobs
+
+🔍 Project Implementation
+Task 1: Define Directory Variables
+
+Created variables to store command-line arguments.
+
+targetDirectory=$1
+destinationDirectory=$2
+![Task 1](screenshots/task1-directory-variables.png)
+
+Task 2: Display Command-Line Arguments
+
+Printed the source and destination directories for verification.
+
+echo "Target directory: $targetDirectory"
+echo "Destination directory: $destinationDirectory"
+![Task 2](screenshots/task2-display-directories.png)
+
+Task 3: Generate Current Timestamp
+
+Generated a Unix timestamp.
+
+currentTS=$(date +%s)
+![Task 3](screenshots/task3-current-timestamp.png)
+
+Task 4: Create Backup Filename
+
+Created a unique backup filename using the timestamp.
+
+backupFileName="backup-$currentTS.tar.gz"
+
+Example:
+
+backup-1748539200.tar.gz
+![Task 4](screenshots/task4-Set_Value.png)
+
+Task 5: Get Current Directory Path
+
+Stored the absolute path of the current working directory.
+
+origAbsPath=$(pwd)
+![Task 5](screenshots/task5-Define_Variable.png)
+
+Task 6: Get Destination Directory Path
+
+Changed to the destination directory and stored its absolute path.
+
+cd "$destinationDirectory"
+destDirAbsPath=$(pwd)
+![Task 6](screenshots/task6-Define_Variable.png)
+
+Task 7: Navigate to Target Directory
+
+Returned to the original directory and entered the target directory.
+
+cd "$origAbsPath"
+cd "$targetDirectory"
+![Task 7](screenshots/task7-Change_Directory.png)
+
+Task 8: Calculate Yesterday's Timestamp
+
+Calculated the timestamp from 24 hours ago.
+
+yesterdayTS=$(($currentTS - 24 * 60 * 60))
+![Task 8](screenshots/task8-YesterdayTS_.png)
+
+Task 9: Iterate Through Files
+
+Looped through every file and directory.
+
+for file in *
+![Task 9](screenshots/task9-List_AllFilesandDirectoriess.png)
+
+Task 10: Check File Modification Time
+
+Determined whether a file was modified within the last 24 hours.
+
+if [[ `date -r $file +%s` -gt $yesterdayTS ]]
+![Task 10](screenshots/task10-If_Statement.png)
+
+Task 11: Add Files to Backup Array
+
+Added qualifying files to an array.
+
+toBackup+=($file)
+![Task 11](screenshots/task11-Add_File.png)
+
+Task 12: Create Backup Archive
+
+Compressed all selected files.
+
+tar -czvf $backupFileName ${toBackup[@]}
+![Task 12](screenshots/task12-Create_Backup.png)
+
+Task 13: Move Backup Archive
+
+Moved the archive to the destination directory.
+
+mv $backupFileName $destDirAbsPath
+![Task 13](screenshots/task13-Move_Backup.png)
+
+Task 14: Download Project Files
+
+Downloaded the lab files.
+
+wget https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-LX0117EN-SkillsNetwork/labs/Final%20Project/important-documents.zip
+
+Task 15: Extract Files
+
+Extracted the downloaded archive.
+
+unzip -DDo important-documents.zip
+![Task 15](screenshots/task15-executable.png)
+
+Task 16: Update File Timestamps
+
+Modified timestamps to simulate recent updates.
+
+touch important-documents/*
+![Task 16](screenshots/task16-backup-complete.png)
+
+Task 17: Install Script and Automate Execution
+
+Made the script executable.
+
+chmod +x backup.sh
+
+Installed globally.
+
+sudo cp backup.sh /usr/local/bin/
+
+Created a Cron Job.
+
+crontab -e
+
+Added:
+
+*/1 * * * * /usr/local/bin/backup.sh /home/project/important-documents /home/project
+
+Verified Cron Jobs.
+
+crontab -l
+
+▶️ Running the Project
+
+Make the script executable:
+
+chmod +x backup.sh
+
+Run the script:
+
+./backup.sh important-documents .
+
+Check generated backup files:
+
+ls -l *.tar.gz
+
+View archive contents:
+
+tar -tzvf backup-*.tar.gz
+
+📚 Key Linux Commands Learned
+ls -l
+pwd
+cd
+chmod
+cp
+mv
+rm
+grep
+sort
+uniq
+wc
+tar
+wget
+unzip
+touch
+crontab
+ip a
+df
+
+🎓 Skills Gained
+
+Throughout this project, I gained practical experience in:
+
+Linux System Administration
+Bash Shell Scripting
+Automation and Scheduling
+File Management
+Archiving and Compression
+Working with Timestamps
+Linux Permissions
+Cron Jobs
+Backup and Recovery Processes
+Troubleshooting Shell Scripts
+
+🚀 Future Improvements
+Add automated logging.
+Add email notifications after backups.
+Implement backup retention policies.
+Integrate cloud backup storage.
+Add error handling and reporting.
+
+👤 Author
+
+Esohwode Marvellous
+
+🎓 B.Sc. Cyber Security, University of Calabar
+
+🔐 Google Cybersecurity Professional Certificate
+
+💻 GitHub: Marvellous-11
+
+📧 Email: youngmarvellous12@gmail.com
+
+⭐ Project Status
+
+Completed Successfully – Linux Shell & Operating System Final Project (Lab 17)
+
+This project demonstrates hands-on Linux administration and shell scripting skills through the development of an automated backup solution.
